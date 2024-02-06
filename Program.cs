@@ -1,19 +1,36 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () => "Use /crypt or /decrypt");
+app.MapGet("/", () => "Välkommen till Krypteraren! Skriv /kryptera eller /avkryptera följt av ");
 
-app.MapGet("/crypt", (int num1, int num2) => AddNumbers(num1, num2));
+app.MapGet("/kryptera", (string text, int skillnad) => Cipher(text, skillnad));
 
-app.MapGet("/decrypt", (int num1, int num2) => SubNumbers(num1, num2));
+app.MapGet("/avkryptera", (string text, int skillnad) => Cipher(text, -skillnad));
 
 app.Run();
 
-string AddNumbers(int num1, int num2)
+static string Cipher(string text, int skillnad)
+{
+    string resultat = "";
+
+    foreach (char c in text)
     {
-        return $"summan är {num1 + num2}";
+        if (char.IsLetter(c))
+        {
+            char skillnadBokstav = (char)(c + skillnad);
+
+            if ((char.IsLower(c) && skillnadBokstav > 'z') || (char.IsUpper(c) && skillnadBokstav > 'Z'))
+            {
+                skillnadBokstav = (char)(c - (26 - skillnad));
+            }
+
+            resultat += skillnadBokstav;
+        }
+        else
+        {
+            resultat += c;
+        }
     }
-string SubNumbers(int num1, int num2)
-    {
-        return $"summan är {num1 - num2}";
-    }
+
+    return resultat;
+}
