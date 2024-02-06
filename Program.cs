@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () => "Välkommen till Krypteraren! /n skriv /kryptera eller /avkryptera följt av ");
+app.MapGet("/", () => "Välkommen till Krypteraren! Skriv /kryptera eller /avkryptera följt av ");
 
 app.MapGet("/kryptera", (string text, int skillnad) => Cipher(text, skillnad));
 
